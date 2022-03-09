@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firebase with Web app & iOS - My Friend Zone</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script type="module" src="./all.js"></script>
+</head>
+<body>
+    <main class="container mx-auto position-relative">
+        <div class="navbar navbar-expand py-4 sticky-top bg-white">
+              <ul class="navbar-nav nav" id="navTab" role="tablist">
+                <li class="nav-item text-center" role="presentation" >
+                  <a class="nav-link block px-3 py-1 text-slate-400 rounded-md hover:bg-slate-400 hover:text-white active:bg-slate-400 active:text-white " href="#home" aria-current="page" id="home-tab" data-bs-toggle="tab" role="pill" aria-controls="home" aria-selected="false">All Articles</a></li>
+                <li class="nav-item text-center" role="presentation">
+                  <a class="nav-link block px-3 py-1 text-slate-400 rounded-md hover:bg-slate-400 hover:text-white active:bg-slate-400 active:text-white " href="#add" aria-current="page" id="add-tab" data-bs-toggle="tab" role="pill" aria-controls="add" aria-selected="true">Create Article</a></li>
+                <li class="nav-item text-center" role="presentation">
+                  <a class="nav-link block px-3 py-1 text-slate-400 rounded-md hover:bg-slate-400 hover:text-white active:bg-slate-400 active:text-white " href="#friend" aria-current="page" id="friend-tab" data-bs-toggle="tab" role="pill" aria-controls="friend" aria-selected="true">My Friends</a></li>
+              </ul> 
+          </div>
+          <div class="tab-content" id="navTabContent">
+            <section class="tab-pane fade flex flex-col justify-start items-center" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <h1 class="text-center text-4xl font-light mb-5 text-slate-600">Articles</h1>
+                <div class="flex gap-3 justify-end mb-5">
+                    <form action="" id="filterForm">
+                        <input type="text" id="filterWords" class="px-2 py-1 border border-slate-400 bg-white rounded-md text-slate-600">
+                    </form>
+                    <select name="filter" id="filterTags" class="py-1 px-2 border border-slate-400 bg-white rounded-md text-slate-600">
+                        <option value="Beauty">Beauty</option>
+                        <option value="Gossiping">Gossiping</option>
+                        <option value="SchoolLife">SchoolLife</option>
+                    </select>
+                </div>
+                <div class="overflow-y-auto max-h-96">
+                    <table class="table table-lg">
+                        <thead class="border-slate-400">
+                        <tr>
+                            <th scope="col" class="font-light border-slate-400">Tag</th>
+                            <th scope="col" class="font-light border-slate-400">Title</th>
+                            <th scope="col" class="font-light border-slate-400">Author</th>
+                            <th scope="col" class="font-light border-slate-400">Created Date</th>
+                            <th scope="col" class="font-light border-slate-400">Delete</th>
+                        </tr>
+                        </thead>
+                        <tbody id="library-data"> 
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+            <section class="tab-pane fade" id="add" role="tabpanel" aria-labelledby="add-tab">
+            <form class="flex flex-col justify-start items-center" id="articleForm">
+                <h1 class="text-4xl font-light mb-10 text-slate-600">Create Article</h1>
+                <div class="flex mb-5">
+                    <label for="title" class="w-16 mr-5">Titel</label>
+                    <input type="text" id="title" class="w-60 border-solid border-slate-400 border-1 rounded-lg px-2">
+                </div>
+                <div class="flex mb-5">
+                    <label for="content" class="w-16 mr-5">Content</label>
+                    <textarea type="text" id="content" rows="4" class="w-60 border-solid border-slate-400 border-1 rounded-lg px-2"> </textarea>
+                </div>
+                <div class="flex mb-5">
+                    <label for="tag" class="w-16 mr-5">Tag</label>
+                    <select name="tag" id="tag" class="py-1 w-60 border-solid border-slate-400 border-1 rounded-lg px-2">
+                        <option value="Beauty">Beauty</option>
+                        <option value="Gossiping">Gossiping</option>
+                        <option value="SchoolLife">School Life</option>
+                    </select>
+                </div>
+                <button type="button" class="px-4 py-1 bg-slate-400 rounded-lg hover:bg-white">Submit</button>
+            </form>
+            </section>
+            <section class="tab-pane fade show active" id="friend" role="tabpanel" aria-labelledby="friend-tab">
+                <div class="flex flex-col justify-start items-center mx-auto min-h-screen py-1">
+                    <form id="searchFriend" class="text-center mb-5 w-full">
+                        <input type="text" id="search" class="block px-3 py-2 bg-white border border-slate-500 rounded-md placeholder-slate-400 w-3/4 mx-auto" placeholder="Enter your friend's email">
+                    </form>
+                    <div class="grow flex flex-wrap w-full -mt-8 py-4">
+                        <div class="w-full h-3/6">
+                            <h2 class="font-light mx-auto bg-slate-100 text-slate-700 w-3/4 px-2 py-1 rounded-md mb-3 text-center" data-bs-toggle="collapse" href="#search-list" role="button" aria-expanded="true" aria-controls="search-list">Search Friends</h2>
+                            <ul class="h-full flex flex-wrap justify-center gap-3 show" id="search-list">
+                            </ul>
+                        </div>
+                        <div class="w-1/2 h-3/6">
+                            <h2 class="font-light mx-auto bg-slate-100 text-slate-700 w-1/2 px-2 py-1 rounded-md mb-3 text-center" data-bs-toggle="collapse" href="#sent-list" role="button" aria-expanded="true" aria-controls="sent-list">Sent Invitations</h2>
+                            <ul class="flex flex-wrap justify-center gap-3 show" id="sent-list">
+                            </ul>
+                        </div>
+                        <div class="w-1/2 h-3/6">
+                            <h2 class="font-light mx-auto bg-slate-100 text-slate-700 w-1/2 px-2 py-1 rounded-md mb-3 text-center" data-bs-toggle="collapse" href="#invitation-list" role="button" aria-expanded="true" aria-controls="invitation-list">Invitation List</h2>
+                            <ul class="flex flex-wrap justify-center gap-3 show" id="invitation-list">
+                            </ul>
+                        </div>
+                        <div class="w-full h-3/6">
+                            <h2 class="font-light mx-auto bg-slate-100 text-slate-700 w-3/4 px-2 py-1 rounded-md mb-3 text-center" data-bs-toggle="collapse" href="#friend-list" role="button" aria-expanded="true" aria-controls="friend-list">Friend List</h2>
+                            <ul class="flex flex-wrap justify-center gap-3 show" id="friend-list">
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+</body>
+</html>
